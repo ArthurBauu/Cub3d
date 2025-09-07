@@ -6,26 +6,25 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:12:04 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/08/13 15:06:03 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:14:51 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-
-int parse (const char *input, t_map *map)
+int	parse(const char *input, t_map *map)
 {
 	int map_start;
 
 	if (parse_input(input, map) == -1)
-		return -1;
+		return (-1);
 	map_start = parse_params(map->map_data, map);
-	if ( map_start == -1)
-		return -1;
+	if (map_start == -1)
+		return (-1);
 	if (parse_map(map->map_data, map_start, map) == -1)
-		return -1;
+		return (-1);
 	if (check_map(map) == -1)
-		return -1;
-	ft_printf("Map parsed successfully!\n");
-	return 0;
+		return (-1);
+	// ft_printf("Map parsed successfully!\n");
+	return (0);
 }

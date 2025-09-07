@@ -6,24 +6,23 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:26:27 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/08/14 23:03:24 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/04 10:45:50 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int ft_max(int a, int b)
+int	ft_max(int a, int b)
 {
-    if (a > b)
-        return a;
-    else
-        return b;
+	if (a > b)
+		return (a);
+	else
+		return (b);
 }
 
 void	replace_f_with_zero(t_map *map)
 {
 	int y, x;
-
 	y = 0;
 	while (y < map->map_height)
 	{
@@ -40,17 +39,15 @@ void	replace_f_with_zero(t_map *map)
 
 #include <string.h>
 
-void trim_newline_end(char *line)
+void	trim_newline_end(char *line)
 {
-    int len;
+	int	len;
 
-    if (!line)
-        return;
-    len = strlen(line);
-    if (len == 0)
-        return;
-    if (line[len - 1] == '\n')
-        line[len - 1] = '\0';
+	if (!line)
+		return ;
+	len = strlen(line);
+	if (len == 0)
+		return ;
+	if (line[len - 1] == '\n')
+		line[len - 1] = '\0';
 }
-
-

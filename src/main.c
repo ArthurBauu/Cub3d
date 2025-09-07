@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:45:20 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/08/14 21:09:46 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/04 10:30:23 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	main(int argc, char **argv)
 {
-	t_map *map;
-	int error_code;
-	
+	t_map	*map;
+	int		error_code;
+
 	if (argc != 2)
 	{
 		write(2, "Usage: ./cube_3d <input_file>\n", 30);
@@ -31,9 +31,10 @@ int	main(int argc, char **argv)
 	init_map(map);
 	if (parse(argv[1], map) == -1)
 		error_code = 1;
+	else if (start_engine(map) == -1)
+		error_code = 1;
 	else
-		start_engine(map);
-	print_struct(map);
+		error_code = 0;
 	free_struct(map);
 	free(map);
 	return (error_code);

@@ -1,4 +1,3 @@
-
 NAME = cube_3d
 
 SRCDIR = src
@@ -9,6 +8,7 @@ INCDIR = include
 SRC = main.c \
 		init/init_map.c \
 		init/init_player.c \
+		init/init_ray.c \
 		parsing/parsing.c \
 		parsing/parse_input.c \
 		parsing/parse_params.c \
@@ -21,6 +21,9 @@ SRC = main.c \
 		utils/utils_parsing.c \
 		utils/utils_free_struct.c \
 		utils/utils_raycasting.c \
+		event/keys.c \
+		event/move.c \
+		event/movement.c
 	 
 OBJ = $(SRC:.c=.o)
 SRC := $(addprefix $(SRCDIR)/, $(SRC))
@@ -43,7 +46,7 @@ ARFLAGS = rcs
 
 # Compiler and Flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INCDIR) -g3 -I$(MINILIBX_DIR) -I/usr/include/X11 -I$(LIBFT_INCLUDE)
+CFLAGS = -Wall -Wextra -Werror -I$(INCDIR) -g3 -I$(MINILIBX_DIR) -I/usr/include/X11 -I$(LIBFT_INCLUDE)  -fsanitize=address
 
 # Detect OS for Flags MiniLibx
 UNAME_S := $(shell uname -s)

@@ -6,27 +6,104 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 23:46:04 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/08/14 23:58:31 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:00:08 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube_3d.h"
 
-int load_texture(t_game *game, char *path, t_img *tex)
+int	load_all_textures(t_game *game, t_map *map)
 {
-    tex->img = mlx_xpm_file_to_image(game->mlx_ptr, path, &tex->bpp, &tex->line_length);
-    if (!tex->img)
-        return (-1);
-    tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->line_length, &tex->endian);
-    return (0);
+	if (load_texture(game, map->path_north, &game->tex_north) == -1)
+		return (-1);
+	if (load_texture(game, map->path_south, &game->tex_south) == -1)
+		return (-1);
+	if (load_texture(game, map->path_east, &game->tex_east) == -1)
+		return (-1);
+	if (load_texture(game, map->path_west, &game->tex_west) == -1)
+		return (-1);
+	return (0);
 }
 
-int load_all_textures(t_game *game, t_map *map)
+void	perform_dda(t_ray *ray, t_map *map)
 {
-    if (load_texture(game, map->path_north, &game->tex_north) == -1) return (-1);
-    if (load_texture(game, map->path_south, &game->tex_south) == -1) return (-1);
-    if (load_texture(game, map->path_east,  &game->tex_east)  == -1) return (-1);
-    if (load_texture(game, map->path_west,  &game->tex_west)  == -1) return (-1);
-    return (0);
+	int	hit;
+
+	hit = 0;
+	while (!hit)
+	{
+		if (ray->side_dist_x < ray->side_dist_y)
+		{
+			ray->side_dist_x += ray->delta_dist_x;
+			ray->map_x += ray->step_x;
+			ray->side = 0;
+		}
+		else
+		{
+			ray->side_dist_y += ray->delta_dist_y;
+			ray->map_y += ray->step_y;
+			ray->side = 1;
+		}
+		if (map->clean_map[ray->map_y][ray->map_x] == '1')
+			hit = 1;
+	}
 }
 
+void	calc_wall(t_ray *ray, t_game *game)
+{
+	if (ray->side == 0)
+		ray->perp_wall_dist = (ray->map_x - game->player.x + (1 - ray->step_x)
+				/ 2) / ray->ray_dir_x;
+	else
+		ray->perp_wall_dist = (ray->map_y - game->player.y + (1 - ray->step_y)
+				/ 2) / ray->ray_dir_y;
+	ray->line_height = (int)(WIN_HEIGHT / ray->perp_wall_dist);
+	ray->draw_start = -ray->line_height / 2 + WIN_HEIGHT / 2;
+	ray->draw_end = ray->line_height / 2 + WIN_HEIGHT / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	if (ray->draw_end >= WIN_HEIGHT)
+		ray->draw_end = WIN_HEIGHT - 1;
+	if (ray->side == 0)
+		ray->tex = (ray->step_x > 0 ? &game->tex_west : &game->tex_east);
+	else
+		ray->tex = (ray->step_y > 0 ? &game->tex_north : &game->tex_south);
+}
+
+void	calc_tex_x(t_ray *ray, t_game *game)
+{
+	double	wall_x;
+
+	if (ray->side == 0)
+		wall_x = game->player.y + ray->perp_wall_dist * ray->ray_dir_y;
+	else
+		wall_x = game->player.x + ray->perp_wall_dist * ray->ray_dir_x;
+	wall_x -= floor(wall_x);
+	ray->tex_x = (int)(wall_x * ray->tex->line_length / (ray->tex->bpp / 8));
+	if ((ray->side == 0 && ray->step_x > 0) || (ray->side == 1
+			&& ray->step_y < 0))
+		ray->tex_x = ray->tex->line_length / (ray->tex->bpp / 8) - ray->tex_x
+			- 1;
+}
+
+void	draw_wall(t_ray *ray, t_game *game, int x)
+{
+	int	y;
+	int	d;
+	int	tex_y;
+	int	color;
+
+	calc_tex_x(ray, game);
+	y = ray->draw_start;
+	while (y < ray->draw_end)
+	{
+		d = y * 256 - WIN_HEIGHT * 128 + ray->line_height * 128;
+		tex_y = ((d * (ray->tex->line_length / (ray->tex->bpp / 8)))
+				/ ray->line_height) / 256;
+		color = *(unsigned int *)(ray->tex->addr + (tex_y
+					* ray->tex->line_length + ray->tex_x * (ray->tex->bpp
+						/ 8)));
+		my_mlx_pixel_put(&game->img, x, y, color);
+		y++;
+	}
+}

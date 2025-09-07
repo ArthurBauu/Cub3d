@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:36:48 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/08/14 22:15:05 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/04 10:26:48 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static void	flood_fill(t_map *map, int x, int y, char fill)
 {
 	if (x < 0 || y < 0 || x >= map->map_width || y >= map->map_height)
-		return;
-	if (map->clean_map[y][x] != '0' && map->clean_map[y][x] != 'N' &&
-		map->clean_map[y][x] != 'S' && map->clean_map[y][x] != 'E' &&
-		map->clean_map[y][x] != 'W')
-		return;
+		return ;
+	if (map->clean_map[y][x] != '0' && map->clean_map[y][x] != 'N'
+		&& map->clean_map[y][x] != 'S' && map->clean_map[y][x] != 'E'
+		&& map->clean_map[y][x] != 'W')
+		return ;
 	map->clean_map[y][x] = fill;
 	flood_fill(map, x + 1, y, fill);
 	flood_fill(map, x - 1, y, fill);
@@ -27,7 +27,7 @@ static void	flood_fill(t_map *map, int x, int y, char fill)
 	flood_fill(map, x, y - 1, fill);
 }
 
-void starting_orientation(t_map *map, char orientation)
+void	starting_orientation(t_map *map, char orientation)
 {
 	if (orientation == 'N')
 		map->start_orientation = 0;
@@ -43,15 +43,17 @@ void starting_orientation(t_map *map, char orientation)
 
 static int	find_player(t_map *map, int *x, int *y)
 {
-	int i = 0, j;
+	int	i;
+	int j;
 
+	i = 0;
 	while (i < map->map_height)
 	{
 		j = 0;
 		while (j < map->map_width)
 		{
-			if (map->clean_map[i][j] == 'N' || map->clean_map[i][j] == 'S' ||
-				map->clean_map[i][j] == 'E' || map->clean_map[i][j] == 'W')
+			if (map->clean_map[i][j] == 'N' || map->clean_map[i][j] == 'S'
+				|| map->clean_map[i][j] == 'E' || map->clean_map[i][j] == 'W')
 			{
 				starting_orientation(map, map->clean_map[i][j]);
 				*x = j;
@@ -69,19 +71,21 @@ static int	find_player(t_map *map, int *x, int *y)
 
 static int	check_filled_edges(t_map *map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < map->map_width)
 	{
-		if (map->clean_map[0][i] == 'F' || map->clean_map[map->map_height - 1][i] == 'F')
+		if (map->clean_map[0][i] == 'F' || map->clean_map[map->map_height
+			- 1][i] == 'F')
 			return (-1);
 		i++;
 	}
 	i = 0;
 	while (i < map->map_height)
 	{
-		if (map->clean_map[i][0] == 'F' || map->clean_map[i][map->map_width - 1] == 'F')
+		if (map->clean_map[i][0] == 'F' || map->clean_map[i][map->map_width
+			- 1] == 'F')
 			return (-1);
 		i++;
 	}
@@ -91,7 +95,6 @@ static int	check_filled_edges(t_map *map)
 int	check_map(t_map *map)
 {
 	int px, py;
-
 	if (find_player(map, &px, &py) == -1)
 	{
 		write(2, "Error: Player not found in the map\n", 36);

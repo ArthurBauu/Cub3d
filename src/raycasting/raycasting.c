@@ -6,25 +6,16 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:10:01 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/08/14 23:58:44 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:13:45 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube_3d.h"
 
-
-void put_pixel(t_img *img, int x, int y, int color)
+void	draw_background(t_img *img, int floor_color, int ceiling_color)
 {
-    char *dst;
-
-    dst = img->addr + (y * img->line_length + x * (img->bpp / 8));
-    *(unsigned int*)dst = color;
-}
-
-void draw_background(t_img *img, int floor_color, int ceiling_color)
-{
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	y = 0;
 	while (y < WIN_HEIGHT / 2)
@@ -49,26 +40,49 @@ void draw_background(t_img *img, int floor_color, int ceiling_color)
 	}
 }
 
-
-int start_engine(t_map *map)
+void	render_frame(t_game *game, t_map *map)
 {
-	t_game game;
+	int		x;
+	t_ray	ray;
 
+	draw_background(&game->img, map->floor_color, map->ceiling_color);
+	x = 0;
+	while (x < WIN_WIDTH)
+	{
+		init_ray(&ray, game, x);
+		perform_dda(&ray, map);
+		calc_wall(&ray, game);
+		draw_wall(&ray, game, x);
+		x++;
+	}
+	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img.img, 0, 0);
+}
+
+int	game_loop(t_game *game)
+{
+	draw_background(&game->img, game->map->floor_color,
+		game->map->ceiling_color);
+	move(game);
+	render_frame(game, game->map);
+	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img.img, 0, 0);
+	return (0);
+}
+
+int	start_engine(t_map *map)
+{
+	t_game	game;
+
+	game.map = map;
 	game.mlx_ptr = mlx_init();
-	if (!game.mlx_ptr)
-		return (write(2, "Error: Failed to initialize MLX\n", 33), -1);
-	game.win_ptr = mlx_new_window(game.mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "Cube_3D");
-	if (!game.win_ptr)
-		return (write(2, "Error: Failed to create window\n", 32), -1);
-	game.img.img = mlx_new_image(game.mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
-	if (!game.img.img)
-		return (write(2, "Error: Failed to create image\n", 31), -1);
-	game.img.addr = mlx_get_data_addr(game.img.img, &game.img.bpp,
-			&game.img.line_length, &game.img.endian);
+	if (engine_check(&game) == -1)
+		return (cleanup_engine(&game), -1);
 	init_player(&game.player, map);
-	draw_background(&game.img, map->floor_color, map->ceiling_color);
-	render_frame(&game, map);
-	mlx_put_image_to_window(game.mlx_ptr, game.win_ptr, game.img.img, 0, 0);
+	init_keys(&game.keys);
+	mlx_hook(game.win_ptr, 2, 1L << 0, key_press, &game);
+	mlx_hook(game.win_ptr, 3, 1L << 1, key_release, &game);
+	mlx_hook(game.win_ptr, 17, 0, close_window, &game);
+	load_all_textures(&game, map);
+	mlx_loop_hook(game.mlx_ptr, game_loop, &game);
 	mlx_loop(game.mlx_ptr);
 	return (0);
 }
