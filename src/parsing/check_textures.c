@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:52:37 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 13:21:57 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:50:11 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,11 @@ int	check_colors(t_map *map)
 	}
 	return (0);
 }
+
 int	check_valid_chars(t_map *map)
 {
-	int i, j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < map->map_height)

@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 23:46:04 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 12:00:08 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:00:56 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,21 @@ int	load_all_textures(t_game *game, t_map *map)
 	return (0);
 }
 
-void	perform_dda(t_ray *ray, t_map *map)
+void ray_side (t_ray *ray, t_game *game)
 {
-	int	hit;
-
-	hit = 0;
-	while (!hit)
+	if (ray->side == 0)
 	{
-		if (ray->side_dist_x < ray->side_dist_y)
-		{
-			ray->side_dist_x += ray->delta_dist_x;
-			ray->map_x += ray->step_x;
-			ray->side = 0;
-		}
+		if (ray->step_x > 0)
+			ray->tex = &game->tex_west;
 		else
-		{
-			ray->side_dist_y += ray->delta_dist_y;
-			ray->map_y += ray->step_y;
-			ray->side = 1;
-		}
-		if (map->clean_map[ray->map_y][ray->map_x] == '1')
-			hit = 1;
+			ray->tex = &game->tex_east;
+	}
+	else
+	{
+		if (ray->step_y > 0)
+			ray->tex = &game->tex_north;
+		else
+			ray->tex = &game->tex_south;
 	}
 }
 
@@ -64,10 +58,7 @@ void	calc_wall(t_ray *ray, t_game *game)
 		ray->draw_start = 0;
 	if (ray->draw_end >= WIN_HEIGHT)
 		ray->draw_end = WIN_HEIGHT - 1;
-	if (ray->side == 0)
-		ray->tex = (ray->step_x > 0 ? &game->tex_west : &game->tex_east);
-	else
-		ray->tex = (ray->step_y > 0 ? &game->tex_north : &game->tex_south);
+	ray_side(ray, game);
 }
 
 void	calc_tex_x(t_ray *ray, t_game *game)

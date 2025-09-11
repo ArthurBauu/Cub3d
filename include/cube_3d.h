@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cube_3d.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/11 16:50:30 by arbaudou          #+#    #+#             */
+/*   Updated: 2025/09/11 16:56:33 by arbaudou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUBE_3D_H
 # define CUBE_3D_H
 
@@ -27,13 +39,17 @@
 # define ROTATE_LEFT 65361  // flèche gauche
 # define ROTATE_RIGHT 65363 // flèche droite
 
+// bpp = bits per pixel
+// line_length = length of a line in bytes
+// endian = endianness of the color format
+
 typedef struct s_img
 {
 	void		*img;
 	char		*addr;
-	int bpp;         // Bits per pixel
-	int line_length; // Length of a line in bytes
-	int endian;      // Endianness of the color format
+	int			bpp;
+	int			line_length;
+	int			endian;
 }				t_img;
 
 typedef struct s_keys
@@ -48,12 +64,12 @@ typedef struct s_keys
 
 typedef struct s_player
 {
-	float x;       // Player's X position
-	float y;       // Player's Y position
-	float dir_x;   // Direction vector X
-	float dir_y;   // Direction vector Y
-	float plane_x; // Camera plane X
-	float plane_y; // Camera plane Y
+	float		x;
+	float		y;
+	float		dir_x;
+	float		dir_y;
+	float		plane_x;
+	float		plane_y;
 }				t_player;
 
 typedef struct s_ray
@@ -102,11 +118,10 @@ int				get_color_from_texture(t_map *map, int texture_index, float u,
 void			render_frame(t_game *game, t_map *map);
 int				load_all_textures(t_game *game, t_map *map);
 void			print_struct(t_map *map);
-void	perform_dda(t_ray *ray, t_map *map);
-void	calc_wall(t_ray *ray, t_game *game);
-void	calc_tex_x(t_ray *ray, t_game *game);
+void			perform_dda(t_ray *ray, t_map *map);
+void			calc_wall(t_ray *ray, t_game *game);
+void			calc_tex_x(t_ray *ray, t_game *game);
 void			draw_wall(t_ray *ray, t_game *game, int x);
-
 
 /************** EVENT *************/
 int				close_window(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:27:30 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 10:27:30 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:45:07 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*normalize_line(char *line, int width)
 
 int	normalize_map(t_map *map, char **lines, int start_index)
 {
-	int i;
+	int	i;
 
 	map->clean_map = malloc(sizeof(char *) * (map->map_height + 1));
 	if (!map->clean_map)

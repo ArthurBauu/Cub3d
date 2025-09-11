@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:12:04 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 13:14:51 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:46:02 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parse(const char *input, t_map *map)
 {
-	int map_start;
+	int	map_start;
 
 	if (parse_input(input, map) == -1)
 		return (-1);
@@ -25,6 +25,5 @@ int	parse(const char *input, t_map *map)
 		return (-1);
 	if (check_map(map) == -1)
 		return (-1);
-	// ft_printf("Map parsed successfully!\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:49:15 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 10:47:39 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:41:37 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,3 @@ void	rotate_player(t_player *player, double angle)
 		* sin(angle);
 	player->plane_y = old_plane_x * sin(angle) + player->plane_y * cos(angle);
 }
-
-

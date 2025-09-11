@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:26:27 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 10:45:50 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:49:55 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int	ft_max(int a, int b)
 
 void	replace_f_with_zero(t_map *map)
 {
-	int y, x;
+	int	y;
+	int	x;
+
 	y = 0;
 	while (y < map->map_height)
 	{
@@ -36,8 +38,6 @@ void	replace_f_with_zero(t_map *map)
 		y++;
 	}
 }
-
-#include <string.h>
 
 void	trim_newline_end(char *line)
 {

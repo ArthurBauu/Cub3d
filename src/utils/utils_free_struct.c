@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:44:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 10:45:41 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:49:18 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,35 @@ void	ft_free_tab(char **tab)
 	free(tab);
 }
 
+void	free_paths(t_map *map)
+{
+	if (map->path_north)
+	{
+		free(map->path_north);
+		map->path_north = NULL;
+	}
+	if (map->path_south)
+	{
+		free(map->path_south);
+		map->path_south = NULL;
+	}
+	if (map->path_east)
+	{
+		free(map->path_east);
+		map->path_east = NULL;
+	}
+	if (map->path_west)
+	{
+		free(map->path_west);
+		map->path_west = NULL;
+	}
+}
+
 void	free_struct(t_map *map)
 {
 	if (!map)
 		return ;
-	if (map->path_north)
-		free(map->path_north), map->path_north = NULL;
-	if (map->path_south)
-		free(map->path_south), map->path_south = NULL;
-	if (map->path_east)
-		free(map->path_east), map->path_east = NULL;
-	if (map->path_west)
-		free(map->path_west), map->path_west = NULL;
+	free_paths(map);
 	if (map->map_data)
 	{
 		ft_free_tab(map->map_data);

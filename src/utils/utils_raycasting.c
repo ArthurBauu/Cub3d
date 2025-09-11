@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:28:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 13:14:01 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:49:02 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	engine_check(t_game *game)
 			&game->img.line_length, &game->img.endian);
 	return (0);
 }
+
 int	load_texture(t_game *game, char *path, t_img *tex)
 {
 	tex->img = mlx_xpm_file_to_image(game->mlx_ptr, path, &tex->bpp,

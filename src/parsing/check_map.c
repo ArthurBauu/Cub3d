@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:36:48 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 10:26:48 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:43:57 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	starting_orientation(t_map *map, char orientation)
 static int	find_player(t_map *map, int *x, int *y)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	while (i < map->map_height)
@@ -94,7 +94,11 @@ static int	check_filled_edges(t_map *map)
 
 int	check_map(t_map *map)
 {
-	int px, py;
+	int	px;
+	int	py;
+
+	px = -1;
+	py = -1;
 	if (find_player(map, &px, &py) == -1)
 	{
 		write(2, "Error: Player not found in the map\n", 36);

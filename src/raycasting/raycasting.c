@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:10:01 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 13:13:45 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:57:25 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,30 @@ void	draw_background(t_img *img, int floor_color, int ceiling_color)
 			x++;
 		}
 		y++;
+	}
+}
+
+void	perform_dda(t_ray *ray, t_map *map)
+{
+	int	hit;
+
+	hit = 0;
+	while (!hit)
+	{
+		if (ray->side_dist_x < ray->side_dist_y)
+		{
+			ray->side_dist_x += ray->delta_dist_x;
+			ray->map_x += ray->step_x;
+			ray->side = 0;
+		}
+		else
+		{
+			ray->side_dist_y += ray->delta_dist_y;
+			ray->map_y += ray->step_y;
+			ray->side = 1;
+		}
+		if (map->clean_map[ray->map_y][ray->map_x] == '1')
+			hit = 1;
 	}
 }
 
