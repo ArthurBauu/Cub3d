@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:50:30 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/12 15:41:15 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:25:40 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@
 # define ROT_SPEED 0.05
 # define FOV 0.66
 # define WALL_MARGIN 0.1
-#define ROTATE_LEFT 65361
-#define ROTATE_RIGHT 65363
-#define MOVE_FORWARD 119
-#define MOVE_BACKWARD 115
-#define MOVE_LEFT 97
-#define MOVE_RIGHT 100
+# define ROTATE_LEFT 65361
+# define ROTATE_RIGHT 65363
+# define MOVE_FORWARD 119
+# define MOVE_BACKWARD 115
+# define MOVE_LEFT 97
+# define MOVE_RIGHT 100
 
 // # define MOVE_FORWARD 122   // z
 // # define MOVE_BACKWARD 115  // s
