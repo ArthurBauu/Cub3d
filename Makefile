@@ -46,7 +46,7 @@ ARFLAGS = rcs
 
 # Compiler and Flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INCDIR) -g3 -I$(MINILIBX_DIR) -I/usr/include/X11 -I$(LIBFT_INCLUDE)  -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I$(INCDIR) -g3 -I$(MINILIBX_DIR) -I/usr/include/X11 -I$(LIBFT_INCLUDE) #/-fsanitize=address
 
 # Detect OS for Flags MiniLibx
 UNAME_S := $(shell uname -s)

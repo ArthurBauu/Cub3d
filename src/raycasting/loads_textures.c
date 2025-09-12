@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 23:46:04 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/11 17:00:56 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:29:03 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	load_all_textures(t_game *game, t_map *map)
 	return (0);
 }
 
-void ray_side (t_ray *ray, t_game *game)
+void	ray_side(t_ray *ray, t_game *game)
 {
 	if (ray->side == 0)
 	{
@@ -83,14 +83,21 @@ void	draw_wall(t_ray *ray, t_game *game, int x)
 	int	d;
 	int	tex_y;
 	int	color;
+	int	tex_height;
 
+	if (!ray->tex || !ray->tex->addr)
+		return ;
 	calc_tex_x(ray, game);
+	tex_height = ray->tex->line_length / (ray->tex->bpp / 8);
 	y = ray->draw_start;
 	while (y < ray->draw_end)
 	{
 		d = y * 256 - WIN_HEIGHT * 128 + ray->line_height * 128;
-		tex_y = ((d * (ray->tex->line_length / (ray->tex->bpp / 8)))
-				/ ray->line_height) / 256;
+		tex_y = ((d * tex_height) / ray->line_height) / 256;
+		if (tex_y < 0)
+			tex_y = 0;
+		if (tex_y >= tex_height)
+			tex_y = tex_height - 1;
 		color = *(unsigned int *)(ray->tex->addr + (tex_y
 					* ray->tex->line_length + ray->tex_x * (ray->tex->bpp
 						/ 8)));

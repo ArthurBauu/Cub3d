@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 17:54:16 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 10:46:19 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:46:54 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	close_window(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
-	printf("Key pressed: %d\n", keycode);
+	// printf("Key pressed: %d\n", keycode);
 	if (keycode == MOVE_FORWARD)
 		game->keys.w = 1;
 	else if (keycode == MOVE_BACKWARD)
@@ -55,7 +55,7 @@ int	key_press(int keycode, t_game *game)
 
 int	key_release(int keycode, t_game *game)
 {
-	printf("Key released: %d\n", keycode);
+	// printf("Key released: %d\n", keycode);
 	if (keycode == MOVE_FORWARD)
 		game->keys.w = 0;
 	else if (keycode == MOVE_BACKWARD)

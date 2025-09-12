@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 21:24:05 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/09/04 10:27:34 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:25:46 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,30 @@ static char	**add_line(char **tab, char *line)
 	return (new_tab);
 }
 
+static char	**read_lines_from_fd(int fd)
+{
+	char	*line;
+	char	**tab;
+
+	tab = NULL;
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		tab = add_line(tab, line);
+		if (!tab)
+		{
+			write(2, "Error: Memory allocation failed\n", 33);
+			free(line);
+			return (NULL);
+		}
+		line = get_next_line(fd);
+	}
+	return (tab);
+}
+
 char	**create_tab(const char *input)
 {
 	int		fd;
-	char	*line;
 	char	**tab;
 
 	fd = open(input, O_RDONLY);
@@ -61,18 +81,7 @@ char	**create_tab(const char *input)
 		write(2, "Error: Unable to open file\n", 27);
 		return (NULL);
 	}
-	tab = NULL;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		tab = add_line(tab, line);
-		if (!tab)
-		{
-			write(2, "Error: Memory allocation failed\n", 33);
-			free(line);
-			close(fd);
-			return (NULL);
-		}
-	}
+	tab = read_lines_from_fd(fd);
 	close(fd);
 	return (tab);
 }
